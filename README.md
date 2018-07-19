@@ -66,7 +66,7 @@ Java HotSpot(TM) 64-Bit Server VM 1.8.0_161-b12
 2) Start the Clojang default node component, which is part of the
 sample system:
 
-```
+```clj
 [clojang.component.repl] λ=> (startup)
 2018-07-19T15:43:06.935 [nREPL-worker-0] INFO clojang.component.components.config:39 - Starting config component ...
 2018-07-19T15:43:06.970 [nREPL-worker-0] DEBUG clojang.component.components.config:40 - Started config component.
@@ -82,7 +82,7 @@ sample system:
 
 3) Make calls using the convencient API at `clojang.component.core`:
 
-```
+```clj
 [clojang.component.repl] λ=> (core/node-name)
 "clojang@spacemac"
 [clojang.component.repl] λ=> (core/node)
