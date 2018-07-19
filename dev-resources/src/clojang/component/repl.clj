@@ -1,6 +1,7 @@
 (ns clojang.component.repl
   "The Clojang component development namespace."
   (:require
+    [clojang.component.core :as core]
     [clojang.component.system]
     [clojure.java.io :as io]
     [clojure.pprint :refer [pprint]]

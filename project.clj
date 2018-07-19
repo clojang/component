@@ -24,6 +24,8 @@
     :name "Apache License, Version 2.0"
     :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :dependencies [
+    [clojang "0.7.0-SNAPSHOT"]
+    [clojang/agent "0.7.0-SNAPSHOT"]
     [clojusc/dev-system "0.1.0"]
     [clojusc/twig "0.3.3"]
     [com.stuartsierra/component "0.3.2"]
@@ -55,6 +57,11 @@
         [clojusc/trifl "0.3.0"]
         [org.clojure/tools.namespace "0.2.11"]]
       :source-paths ["dev-resources/src"]
+      :jvm-opts [
+        ;"-verbose:class"
+        ;"-Dheadless"
+        "-splash:resources/images/logo-5-250x.png"
+        "-Dnode.sname=clojang"]
       :repl-options {
         :init-ns clojang.component.repl
         :prompt ~get-prompt

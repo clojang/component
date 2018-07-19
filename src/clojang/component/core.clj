@@ -12,3 +12,31 @@
   If you wish to use the general Clojang functions for communicating with an
   Erlang or Clojure node, you chould be using the clojang library directly."
   )
+
+(defn system
+  []
+  ((ns-resolve (create-ns 'clojang.component.repl) 'system-arg)))
+
+(defn node-name
+  ([]
+    (node-name (system)))
+  ([system]
+    (get-in system [:default-node :node-name])))
+
+(defn node
+  ([]
+    (node (system)))
+  ([system]
+    (get-in system [:default-node :node])))
+
+(defn mbox-name
+  ([]
+    (mbox-name (system)))
+  ([system]
+    (get-in system [:default-node :mbox-name])))
+
+(defn mbox
+  ([]
+    (mbox (system)))
+  ([system]
+    (get-in system [:default-node :mbox])))
