@@ -1,0 +1,3 @@
+{:logging {
+   :level :debug
+   :nss [clojang com.ericsson.otp.erlang jiface]}}
