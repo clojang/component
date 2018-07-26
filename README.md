@@ -19,10 +19,10 @@
 
 ## About [&#x219F;](#contents)
 
-While the [Clojang agent][agent] is useful for emulating some of the convenience of
-the Erlang shell and LFE REPL, it may be too fragile for systems deployments, or
-developer may prefer to use more common idioms in Clojure deployments, namely the
-use of the Component library.
+While the [Clojang agent][agent] is useful for emulating some of the convenience
+of the Erlang shell and LFE REPL, it may be too fragile for systems deployments,
+or a developer may prefer to use more common idioms in Clojure deployments,
+namely the use of the Component library.
 
 This project provides the same functionality that the agent does, but in a form
 that can be easily integrated with other Clojure components as part of a larger
