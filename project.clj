@@ -26,7 +26,7 @@
   :dependencies [
     [clojang "0.7.0-SNAPSHOT"]
     [clojang/agent "0.7.0-SNAPSHOT"]
-    [clojusc/dev-system "0.1.0"]
+    [clojusc/system-manager "0.2.0-SNAPSHOT"]
     [clojusc/twig "0.3.3"]
     [com.stuartsierra/component "0.3.2"]
     [org.clojure/clojure "1.9.0"]]
