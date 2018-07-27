@@ -8,80 +8,41 @@
     [clojure.set :as set]
     [clojure.string :as string]
     [clojure.tools.namespace.repl :as repl]
-    [clojusc.dev.system.core :as system-api]
+    [clojusc.system-manager.core :refer :all]
     [clojusc.twig :as logger]
     [com.stuartsierra.component :as component]
     [taoensso.timbre :as log]
     [trifl.java :refer [show-methods]]))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;   Constants   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(def setup-options {
+  :init 'clojang.component.system/init
+  :after-refresh 'clojang.component.repl/init-and-startup
+  :throw-errors false})
 
-(def system-ns "clojang.component.system")
-(def refresh-callback 'clojang.component.repl/startup)
+(defn init
+  []
+  "This is used to set the options and any other global data.
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;   Initial Setup & Utility Functions   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  This is defined in a function for re-use. For instance, when a REPL is
+  reloaded, the options will be lost and need to be re-applied."
+  (logger/set-level! '[clojusc.dev] :debug)
+  (setup-manager setup-options))
 
-(logger/set-level! '[clojang] :debug)
+(defn init-and-startup
+  []
+  "This is used as the 'after-refresh' function by the REPL tools library.
+  Not only do the options (and other global operations) need to be re-applied,
+  the system also needs to be started up, once these options have be set up."
+  (init)
+  (startup))
 
-(def ^:dynamic *mgr* nil)
+;; It is not always desired that a system be started up upon REPL loading.
+;; Thus, we set the options and perform any global operations with init,
+;; and let the user determine when then want to bring up (a potentially
+;; computationally intensive) system.
+(init)
 
 (defn banner
   []
   (println (slurp (io/resource "text/banner.txt")))
   :ok)
-
-(defn mgr-arg
-  []
-  (if *mgr*
-    *mgr*
-    (throw (new Exception
-                (str "A state manager is not defined; "
-                     "have you run (startup)?")))))
-
-(defn system-arg
-  []
-  (if-let [state (:state *mgr*)]
-    (system-api/get-system state)
-    (throw (new Exception
-                (str "System data structure is not defined; "
-                     "have you run (startup)?")))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;   State Management   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defn startup
-  []
-  (log/trace "Creating state manager ...")
-  (alter-var-root #'*mgr* (constantly (system-api/create-state-manager)))
-  (log/trace "State manager was created:" *mgr*)
-  (log/trace "Setting system namespace ...")
-  (system-api/set-system-ns (:state *mgr*) system-ns)
-  (log/trace "Set system namespace to:" (system-api/get-system-ns (:state *mgr*)))
-  (log/trace "System status:" (system-api/get-status (:state *mgr*)))
-  (log/trace "Starting system ...")
-  (system-api/startup *mgr*))
-
-(defn shutdown
-  []
-  (when *mgr*
-    (let [result (system-api/shutdown (mgr-arg))]
-      (alter-var-root #'*mgr* (constantly nil))
-      result)))
-
-(def system system-arg)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;   Reloading Management   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defn reset
-  []
-  (shutdown)
-  (repl/refresh :after refresh-callback))
-
-(def refresh #'repl/refresh)
