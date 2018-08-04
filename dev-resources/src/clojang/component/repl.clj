@@ -25,7 +25,7 @@
 
   This is defined in a function for re-use. For instance, when a REPL is
   reloaded, the options will be lost and need to be re-applied."
-  (logger/set-level! '[clojusc.dev] :debug)
+  (logger/set-level! '[clojang com.ericsson.otp.erlang jiface] :debug)
   (setup-manager setup-options))
 
 (defn init-and-startup
