@@ -14,6 +14,7 @@
   (:require
     [clojang.component.system]
     [clojusc.system-manager.core :refer :all]
+    [clojusc.twig :as logger]
     [taoensso.timbre :as log]
     [trifl.java :as java])
   (:gen-class))
@@ -63,10 +64,20 @@
   (setup-manager setup-options))
 
 (defn -main
+  "For best results, run with: `lein trampoline run`
+
+  To see the demo output, run: `lein trampoline run demo`"
   [& args]
   (init)
   (startup)
   (java/add-shutdown-handler #(do
                                (log/warn "Shutting down system ...")
                                (shutdown)))
+  (case (keyword (first args))
+    :demo (log/info "Demo of core function calls:"
+                    (logger/pprint {:node-name (node-name)
+                                    :node (node)
+                                    :mbox-name (mbox-name)
+                                    :mbox (mbox)}))
+    :unexpected-arg)
   (java/join-current-thread))
