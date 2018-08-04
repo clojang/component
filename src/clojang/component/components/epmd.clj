@@ -54,7 +54,7 @@
         (if (seq process-info)
           (let [updated (assoc this :already-running? false
                                     :process-info process-info)]
-            (log/info "Started the Erlang Port Mapper Daemon process.")
+            (log/debug "Started the Erlang Port Mapper Daemon process.")
             (log/debug started-message)
             updated)
           (let [updated (assoc this :already-running? false
@@ -73,7 +73,7 @@
     (let [process-info (get-epmd-process)]
       (if (seq process-info)
         (log/warn "There was a problem stopping the Erlang Port Mapper Daemon.")
-        (log/info "Stopped the Erlang Port Mapper Daemon process."))))
+        (log/debug "Stopped the Erlang Port Mapper Daemon process."))))
   (log/debug "Stopped Erlang Port Mapper Daemon component.")
   (Thread/sleep 1000)
   (assoc this :already-running? nil
