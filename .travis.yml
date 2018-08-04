@@ -2,6 +2,8 @@ language: clojure
 script:
 - epmd -daemon
 - lein build
+env:
+- LEIN_SNAPSHOTS_IN_RELEASE=1
 jdk:
 - oraclejdk8
 addons:
