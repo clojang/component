@@ -2,6 +2,7 @@
   (:require
     [clojang.component.components.config :as config]
     [clojang.component.components.default-node :as default-node]
+    [clojang.component.components.epmd :as epmd]
     [clojang.component.components.logging :as logging]
     [com.stuartsierra.component :as component]))
 
@@ -17,15 +18,20 @@
              (logging/create-component)
              [:config])})
 
+(def port-mapper
+  {:epmd (component/using
+          (epmd/create-component)
+          [:config :logging])})
+
 (def node
   {:default-node (component/using
                   (default-node/create-component)
-                  [:config :logging])})
+                  [:config :logging :epmd])})
 
 (def node-without-logging
   {:default-node (component/using
                   (default-node/create-component)
-                  [:config])})
+                  [:epmd :config])})
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;   Component Initializations   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -46,12 +52,14 @@
   (component/map->SystemMap
     (merge cfg
            log
+           port-mapper
            node)))
 
 (defn initialize-without-logging
   []
   (component/map->SystemMap
     (merge cfg
+           port-mapper
            node-without-logging)))
 
 (def init-lookup
