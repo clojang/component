@@ -68,15 +68,20 @@ sample system:
 
 ```clj
 [clojang.component.repl] λ=> (startup)
-2018-07-19T15:43:06.935 [nREPL-worker-0] INFO clojang.component.components.config:39 - Starting config component ...
-2018-07-19T15:43:06.970 [nREPL-worker-0] DEBUG clojang.component.components.config:40 - Started config component.
-2018-07-19T15:43:06.976 [nREPL-worker-0] INFO clojang.component.components.logging:16 - Starting logging component ...
-2018-07-19T15:43:06.977 [nREPL-worker-0] DEBUG clojang.component.components.logging:19 - Setting up logging with level :debug
-2018-07-19T15:43:06.978 [nREPL-worker-0] DEBUG clojang.component.components.logging:20 - Logging namespaces: [clojang com.ericsson.otp.erlang jiface]
-2018-07-19T15:43:06.982 [nREPL-worker-0] DEBUG clojang.component.components.logging:22 - Started logging component.
-2018-07-19T15:43:06.983 [nREPL-worker-0] INFO clojang.component.components.default-node:23 - Starting default node component ...
-2018-07-19T15:43:06.985 [nREPL-worker-0] INFO clojang.agent.startup:22 - Bringing up OTP node on clojang@spacemac ...
-2018-07-19T15:43:06.996 [nREPL-worker-0] INFO clojang.agent.startup:26 - Registered nodes with message boxes: ["default"]
+```
+```clj
+2018-08-04T15:33:05.475 [nREPL-worker-0] INFO clojang.component.components.config:39 - Starting config component ...
+2018-08-04T15:33:05.510 [nREPL-worker-0] DEBUG clojang.component.components.config:40 - Started config component.
+2018-08-04T15:33:05.513 [nREPL-worker-0] INFO clojang.component.components.logging:16 - Starting logging component ...
+2018-08-04T15:33:05.514 [nREPL-worker-0] DEBUG clojang.component.components.logging:19 - Setting up logging with level :debug
+2018-08-04T15:33:05.514 [nREPL-worker-0] DEBUG clojang.component.components.logging:20 - Logging namespaces: [clojang com.ericsson.otp.erlang jiface]
+2018-08-04T15:33:05.519 [nREPL-worker-0] DEBUG clojang.component.components.logging:22 - Started logging component.
+2018-08-04T15:33:05.520 [nREPL-worker-0] INFO clojang.component.components.epmd:45 - Starting Erlang Port Mapper Daemon component ...
+2018-08-04T15:33:05.644 [nREPL-worker-0] DEBUG clojang.component.components.epmd:57 - Started the Erlang Port Mapper Daemon process.
+2018-08-04T15:33:05.644 [nREPL-worker-0] DEBUG clojang.component.components.epmd:58 - Started Erlang Port Mapper Daemon component.
+2018-08-04T15:33:05.646 [nREPL-worker-0] INFO clojang.component.components.default-node:23 - Starting default node component ...
+2018-08-04T15:33:05.648 [nREPL-worker-0] INFO clojang.agent.startup:34 - Bringing up OTP node on clojang@spacemac ...
+2018-08-04T15:33:05.657 [nREPL-worker-0] INFO clojang.agent.startup:26 - Registered nodes with message boxes: ["default"]
 :running
 ```
 
