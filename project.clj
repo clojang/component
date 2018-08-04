@@ -56,6 +56,8 @@
       :dependencies [
         [clojusc/trifl "0.3.0"]
         [org.clojure/tools.namespace "0.2.11"]]
+      :plugins [
+        [venantius/ultra "0.5.2"]]
       :source-paths ["dev-resources/src"]
       :jvm-opts [
         ;"-verbose:class"
@@ -85,8 +87,7 @@
     "eastwood" ["with-profile" "+lint" "eastwood" "{:namespaces [:source-paths]}"]
     "lint" ["do"
       ["kibit"]
-      ;["eastwood"]
-      ]
+      ["eastwood"]]
     "ltest" ["with-profile" "+test" "ltest"]
     "build" ["do"
       ["clean"]
