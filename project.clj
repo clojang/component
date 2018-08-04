@@ -30,6 +30,8 @@
     [clojusc/twig "0.3.3"]
     [com.stuartsierra/component "0.3.2"]
     [org.clojure/clojure "1.9.0"]]
+  :main clojang.component.core
+  :aot [clojang.component.core]
   :profiles {
     :ubercompile {
       :aot :all}
