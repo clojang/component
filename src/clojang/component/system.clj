@@ -48,7 +48,7 @@
            log
            node)))
 
-(defn node-without-logging
+(defn initialize-without-logging
   []
   (component/map->SystemMap
     (merge cfg
@@ -57,7 +57,7 @@
 (def init-lookup
   {:basic #'initialize-bare-bones
    :testing-config-only #'initialize-config-only
-   :testing #'node-without-logging
+   :testing #'initialize-without-logging
    :node #'initialize-with-node})
 
 (defn init
