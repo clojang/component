@@ -11,11 +11,16 @@
 
   If you wish to use the general Clojang functions for communicating with an
   Erlang or Clojure node, you chould be using the clojang library directly."
-  )
+  (:require
+    [clojang.component.system]
+    [clojusc.system-manager.core :refer :all]
+    [taoensso.timbre :as log]
+    [trifl.java :as java])
+  (:gen-class))
 
-(defn system
-  []
-  ((ns-resolve (create-ns 'clojang.component.repl) 'system-arg)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;   Convenience API for a Running System   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn node-name
   ([]
@@ -40,3 +45,28 @@
     (mbox (system)))
   ([system]
     (get-in system [:default-node :mbox])))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;   Run the Component as an Application   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(def setup-options {
+  :init 'clojang.component.system/init
+  :throw-errors true})
+
+(defn init
+  []
+  "This is used to set the options and any other global data.
+
+  This is defined in a function for re-use. For instance, when a REPL is
+  reloaded, the options will be lost and need to be re-applied."
+  (setup-manager setup-options))
+
+(defn -main
+  [& args]
+  (init)
+  (startup)
+  (java/add-shutdown-handler #(do
+                               (log/warn "Shutting down system ...")
+                               (shutdown)))
+  (java/join-current-thread))
