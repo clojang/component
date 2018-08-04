@@ -14,7 +14,7 @@
        ns
        "\u001B[35m]\u001B[33m λ\u001B[m=> "))
 
-(defproject clojang/component "0.1.0-SNAPSHOT"
+(defproject clojang/component "0.2.0-SNAPSHOT"
   :description "A Clojang life-cycle implementation of the Component library for use in large/complex applications"
   :url "https://github.com/clojang/component"
   :scm {
